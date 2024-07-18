@@ -14,6 +14,7 @@ class HomeProvider with ChangeNotifier {
   Future<WallpaperModel?>? model;
   int page = 0;
   List<HitsModel> hitsList2 = [];
+  int index = 0;
 
   void getWallpaper1()  {
     page++;
@@ -31,5 +32,12 @@ class HomeProvider with ChangeNotifier {
     //   imageList = model.hitsList;
     //   notifyListeners();
     // }
+  }
+
+  void changeIndex(int value)
+  {
+    index = value;
+    notifyListeners();
+    print(index);
   }
 }
