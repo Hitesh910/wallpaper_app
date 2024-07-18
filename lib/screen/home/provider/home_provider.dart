@@ -12,10 +12,13 @@ class HomeProvider with ChangeNotifier {
   ];
   String search = "Nature";
   Future<WallpaperModel?>? model;
+  int page = 0;
+  List<HitsModel> hitsList2 = [];
 
   void getWallpaper1()  {
+    page++;
     APIHelper helper = APIHelper();
-  model = helper.getWallpaper(search);
+  model = helper.getWallpaper(search,page);
 
     model!.then((value) {
       if(value!=null)

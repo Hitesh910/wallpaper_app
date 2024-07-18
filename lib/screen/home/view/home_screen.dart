@@ -17,12 +17,21 @@ class _HomeScreenState extends State<HomeScreen> {
   HomeProvider? providerR;
   HomeProvider? providerW;
   TextEditingController txtSearch = TextEditingController();
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     context.read<HomeProvider>().getWallpaper1();
+    scrollController.addListener(() {
+      if(scrollController.position.pixels == scrollController.position.maxScrollExtent)
+        {
+          print("End Hello");
+          context.read<HomeProvider>().getWallpaper1();
+        }
+    },);
+
   }
 
   @override
@@ -41,10 +50,13 @@ class _HomeScreenState extends State<HomeScreen> {
           }
           else if (snapshot.hasData) {
             WallpaperModel? model = snapshot.data;
-
+            providerW!.hitsList2.addAll(model!.hitsList!);
+             // model.hitsList!.clear();
+            // providerW!.hitsList.clear();
             if (model == null) {
               Text("No data found");
-            } else if (model.hitsList!.isEmpty) {
+            }
+            else if (model.hitsList!.isEmpty) {
               Text("Search another Topic...");
             }
             else {
@@ -82,14 +94,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         autoPlay: true,
                         enlargeCenterPage: true,
                       )),
+                  // SizedBox(
+                  //   height: 20,width: 400,
+                  //   child: Row(
+                  //     children: [
+                  //       ListView.builder(itemBuilder: (context, index) {
+                  //         return Container(height: 20,width: 20,decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.grey),);
+                  //       },itemCount: 5,),
+                  //     ],
+                  //   ),
+                  // ),
                   Expanded(
                     child: GridView.builder(
-                      itemCount: model.hitsList!.length,
+                      controller: scrollController,
+                      itemCount: providerW!.hitsList2.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,mainAxisExtent: 200,mainAxisSpacing: 5,crossAxisSpacing: 5),
+                          crossAxisCount: 3,
+                          mainAxisExtent: 200,
+                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 5),
                       itemBuilder: (context, index) {
                         return CachedNetworkImage(
-                          imageUrl: "${model.hitsList![index].previewURL}",
+                          imageUrl: "${providerR!.hitsList2[index].previewURL}",
                           fit: BoxFit.fill,
                           // errorWidget: ,
                           placeholder: (context, url) => Center(
@@ -104,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           }
           // return Center();
-           return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator());
         },
       ),
       // Column(
