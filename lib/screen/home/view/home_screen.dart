@@ -26,16 +26,16 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<HomeProvider>().getWallpaper1();
-    scrollController.addListener(
-      () {
-        if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent) {
-          print("End Hello");
-          context.read<HomeProvider>().getWallpaper1();
-        }
-      },
-    );
+    // context.read<HomeProvider>().getWallpaper1();
+    // scrollController.addListener(
+    //   () {
+    //     if (scrollController.position.pixels ==
+    //         scrollController.position.maxScrollExtent) {
+    //       print("End Hello");
+    //       context.read<HomeProvider>().getWallpaper1();
+    //     }
+    //   },
+    // );
   }
 
   @override
@@ -44,15 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
     providerW = context.watch<HomeProvider>();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Wallpaper app"),
+        title: const Text("Wallpaper app"),
       ),
       body: Column(
         children: [
           providerW!.index == 0
-              ? Expanded(child: DashScreen())
+              ? const Expanded(child: DashScreen())
               : providerW!.index == 1
-                  ? Expanded(child: CategoryScreen())
-                  : Expanded(child: FavoriteScreen())
+                  ? const Expanded(child: CategoryScreen())
+                  : const Expanded(child: FavoriteScreen())
         ],
       ),
       // Column(
